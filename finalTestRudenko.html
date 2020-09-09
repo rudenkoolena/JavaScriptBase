@@ -1,0 +1,87 @@
+﻿
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>JS Base Final Test - Olena Rudenko</title>
+<script>
+
+// Принять от пользователя имена людей для набора в команду. Имена принять и сохранить в новом массиве.
+
+var positions = ['Junior developer', 'Middle developer', 'Senior developer', 'Junior QA', 'Middle QA', 'Senior QA', 'Project manager'];
+var names = [];
+for (var i = 0; i < positions.length; i++) {
+   name =  prompt("Введите имя сотрудника #" + (i + 1) + ":"), 
+   names.push(name)
+};
+
+// Создать объект team в котором будут храниться новые объекты-сотрудники с параметрами name и position, данные для этих свойств добавляем из массивов.
+
+function createTeam(names) {
+   var team = {
+     employee: []
+    };
+   for (var i = 0; i < names.length; i++) {
+      team.employee[i] = {
+            name: names[i],
+            position: positions[i]            
+      }
+   }
+   return team;
+}
+
+
+
+// Добавить сотрудникам зарплаты (свойство salary) при помощи метода Math.random()
+function getRandom(min, max) {
+   rand = min + Math.random() * (max + 1 - min);
+   return Math.floor(rand);
+}
+
+// Добавить зарплату
+function setSalary(team) {
+   for (var i = 0; i < team.employee.length; i++) {
+      if (team.employee[i].position.toLowerCase().indexOf("junior") >= 0) {
+         team.employee[i].salary = getRandom(500, 1000);
+      } else if (team.employee[i].position.toLowerCase().indexOf("middle") >= 0) {
+         team.employee[i].salary = getRandom(1500, 2000);
+      } else if (team.employee[i].position.toLowerCase().indexOf("senior") >= 0) {
+         team.employee[i].salary = getRandom(2500, 3000);
+      } else {
+         team.employee[i].salary = getRandom(4000, 4500);
+      }
+   }
+}
+
+
+// Добавить каждому сотруднику метод tellAboutYourSelf()
+function tellAboutYourSelf(team) {
+   for (var i = 0; i < team.employee.length; i++) {
+      team.employee[i].showAboutYourSelf = function() {
+         console.log("Меня зовут " + this.name + " и я - " + this.position + ". Я зарабатываю " + this.salary);
+      }
+   }
+}
+
+function generateShowTeam(team) {
+   team.showTeam = function() {
+      this.employee.forEach(employee => {
+         employee.showAboutYourSelf();         
+      })
+   }
+}; 
+
+
+console.log("Имена: " + names);
+var myTeam1 = createTeam(names);
+console.log("Созданный обьект Team: " + myTeam1);
+setSalary(myTeam1);
+console.log(myTeam1);
+tellAboutYourSelf(myTeam1);
+generateShowTeam(myTeam1);
+myTeam1.showTeam();
+
+</script>
+</head>
+<body>
+</body>
+</html>
